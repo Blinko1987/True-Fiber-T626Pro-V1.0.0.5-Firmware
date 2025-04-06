@@ -1,0 +1,21 @@
+#!/bin/sh
+### Functions for voip
+echo "lib_voip"
+
+if [ "$TCSUPPORT_CPU_ARMV8" != "" ] ;then
+echo "pcm irq cpubind in pcm driver"
+else
+if [ -f "/proc/tc3162/sys_is_1004k_support" ] ;then
+/userfs/bin/irqCpuBind set pcm1 3
+/userfs/bin/irqCpuBind set pcm2 3
+else
+echo 8 > /proc/irq/12/smp_affinity
+fi
+fi
+
+echo "lib_voip end"
+
+
+
+
+

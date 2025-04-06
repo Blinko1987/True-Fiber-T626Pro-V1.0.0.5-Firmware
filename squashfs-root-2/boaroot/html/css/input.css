@@ -1,0 +1,134 @@
+.input-search {
+    border: 2px solid #3D6BA6;
+    box-sizing: border-box;
+    border-radius: 17px;
+    height: 27px;
+}
+
+.input-login {
+    width: auto !important;
+    text-align: center;
+}
+
+.input-textfield {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -2px;
+    -webkit-appearance: none;
+    width: 90% !important;
+}
+
+.input-textfield-auto {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -2px;
+    -webkit-appearance: none;
+    width: auto !important;
+}
+
+.input-textfield-15 {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -2px;
+    -webkit-appearance: none;
+    width: 12% !important;
+}
+
+.input-textfield-12 {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -10px;
+    -webkit-appearance: none;
+    width: 11% !important;
+}
+
+.input-textfield-20 {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -10px;
+    -webkit-appearance: none;
+    width: 25% !important;
+}
+
+.input-textfield-20 {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -10px;
+    -webkit-appearance: none;
+    width: 25% !important;
+}
+
+.input-textfield-21 {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -10px;
+    -webkit-appearance: none;
+    width: 20% !important;
+}
+
+.input-select {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    color: #888888;
+    background: #fff;
+    outline-offset: -5px;
+    /* -webkit-appearance: none; */
+    width: 90%;
+    padding: .275rem .75rem !important;
+}
+
+
+}
+
+.input-select-custom {
+    border: 1px solid #888888 !important;
+    border-radius: 17px;
+    box-sizing: border-box;
+    font-size: 10px;
+    height: 30px;
+    color: #888888;
+    background: #fff;
+    outline-offset: -5px;
+    -webkit-appearance: none;
+    width: 35%;
+}
+
+.input-radio {
+    font-size: 10px;
+    color: #888888;
+    padding-top: 0px !important;
+    padding-right: 10px;
+    overflow: unset;
+}
+
+.input-file {
+    font-size: 10px;
+    height: 30px;
+    outline-offset: -2px;
+    -webkit-appearance: none;
+    width: 90% !important;
+}

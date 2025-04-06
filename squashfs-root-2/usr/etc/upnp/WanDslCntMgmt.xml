@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+<specVersion>
+<major>1</major>
+<minor>0</minor>
+</specVersion>
+<actionList>
+<action>
+<name>GetWANConnectionServiceNumberOfEntries</name> 
+<argumentList>
+<argument>
+<name>NewWanConnectionServiceNumberOfEntries</name>
+<direction>out</direction>
+<relatedStateVariable>WANConnectionServiceNumberOfEntries</relatedStateVariable>
+</argument>		
+</argumentList>     
+</action>
+<action>
+<name>AddConnectionDeviceAndService</name>
+<argumentList>
+<argument>
+<name>NewDestinationAddress</name>
+<direction>in</direction>
+<relatedStateVariable>DestinationAddress</relatedStateVariable>
+</argument>
+<argument>
+<name>NewLinkType</name>
+<direction>in</direction>
+<relatedStateVariable>LinkType</relatedStateVariable>
+</argument>
+<argument>
+<name>NewConnectionType</name>
+<direction>in</direction>
+<relatedStateVariable>ConnectionType</relatedStateVariable>
+</argument>
+<argument>
+<name>NewName</name>
+<direction>in</direction>
+<relatedStateVariable>Name</relatedStateVariable>
+</argument>
+<argument>
+<name>NewWANConnectionDevice</name>
+<direction>out</direction>
+<relatedStateVariable>WANConnectionDevice</relatedStateVariable>
+</argument>
+<argument>
+<name>NewWANConnectionService</name>
+<direction>out</direction>
+<relatedStateVariable>WANConnectionService</relatedStateVariable>
+</argument>
+</argumentList>
+</action>
+</actionList>  
+<serviceStateTable>
+<stateVariable sendEvents="no">
+<name>DestinationAddress</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>LinkType</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ConnectionType</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>Name</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>WANConnectionDevice</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>WANConnectionService</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>WANConnectionServiceNumberOfEntries</name>
+<dataType>ui2</dataType>
+</stateVariable>
+</serviceStateTable>
+</scpd>

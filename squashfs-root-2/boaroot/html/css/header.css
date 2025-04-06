@@ -1,0 +1,39 @@
+.logo-header {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+}
+
+.tap-menu {
+    width: -webkit-fill-available;
+    background: linear-gradient(90deg, #3E6CA6 11.98%, #31A8C3 78.82%);
+}
+
+.menu-list {
+    margin: auto;
+    /* font-family: Roboto; */
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    min-height: 50px;
+}
+
+.menu-item {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.menu-active {
+    /* border-radius: 12% 12% 0% 0% / 100% 100% 0% 0% !important; */
+    border-top-left-radius: 0.25rem !important;
+    border-top-right-radius: 0.25rem !important;
+    background: #E5E5E5;
+    text-align: center;
+    margin-top: 0.3rem;
+}
+
+.menu-link {
+    min-width: 2vw;
+}

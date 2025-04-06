@@ -1,0 +1,52 @@
+#!/bin/sh
+### Functions for kernel
+### Define function name start with kernel_*, for example kernel_support_qos
+
+PROFILE_CFG=/userfs/profile.cfg
+if [ -f $PROFILE_CFG ] ; then
+    chmod 777 $PROFILE_CFG
+    . $PROFILE_CFG
+fi
+
+### Function to get KERNEL_DIR
+kernel_get_kernel_dir()
+{
+	if [ "$TCSUPPORT_2_6_36_KERNEL" != "" ] ;then
+		echo "/lib/modules/2.6.36"
+	else
+	if [ "$TCSUPPORT_5_4_KERNEL" != "" ] ;then
+		echo "/lib/modules/5.4.55"
+	else
+	if [ "$TCSUPPORT_4_4_KERNEL" != "" ] ;then
+		echo "/lib/modules/4.4.115"
+	else
+	if [ "$TCSUPPORT_3_18_21_KERNEL" != "" ] ;then
+		echo "/lib/modules/3.18.21"
+	else
+		echo "/lib/modules/2.6.22.15"
+	fi
+	fi
+	fi
+	fi
+}
+
+KERNEL_DIR=`kernel_get_kernel_dir`
+echo "$KERNEL_DIR"
+
+### Function to support qos
+kernel_support_qos()
+{
+	# support QoS
+	if [ "$TCSUPPORT_CMCC" = "" ] || [ "$TCSUPPORT_CPU_EN7521" = "" ] ;then
+		if [ "$TCSUPPORT_QOS" != "" ] ;then
+			insmod $KERNEL_DIR/kernel/net/sched/act_mirred.ko
+			insmod $KERNEL_DIR/kernel/net/sched/cls_fw.ko
+			insmod $KERNEL_DIR/kernel/net/sched/sch_htb.ko
+			insmod $KERNEL_DIR/kernel/net/sched/sch_prio.ko
+			ifconfig imq0 up
+		fi
+	fi
+}
+
+
+

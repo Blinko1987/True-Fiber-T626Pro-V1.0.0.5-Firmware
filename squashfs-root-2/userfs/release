@@ -1,0 +1,18 @@
+Path: /home/xuezhiyang/project/release/true_TEN24_T626Pro/20240318/7529_TRUE_TEN24_TZN20_AX3000
+Working Copy Root Path: /home/xuezhiyang/project/release/true_TEN24_T626Pro/20240318/7529_TRUE_TEN24_TZN20_AX3000
+URL: svn://svn01.sdt.com/sw10_internetTech/NewTech/SkyPON/ECONET/branches/7529_TRUE_TEN24_TZN20_AX3000
+Relative URL: ^/NewTech/SkyPON/ECONET/branches/7529_TRUE_TEN24_TZN20_AX3000
+Repository Root: svn://svn01.sdt.com/sw10_internetTech
+Repository UUID: 10bbf719-5a4d-4b3d-9d90-90ba19506811
+Revision: 62339
+Node Kind: directory
+Schedule: normal
+Last Changed Author: xuezhiyang
+Last Changed Rev: 62339
+Last Changed Date: 2024-03-18 18:16:38 +0800 (Mon, 18 Mar 2024)
+
+Profile:TRUE_EN7529_TEN24_VID23_7916D_HSGMII_MAP
+Version:V1.0.0.5
+SupportModelName:T626Pro
+Build time:2024-03-18 19:01:13
+Builder:xuezhiyang

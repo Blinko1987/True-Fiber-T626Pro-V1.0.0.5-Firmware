@@ -1,0 +1,856 @@
+#!/bin/sh
+
+. /usr/script/lib_kernel
+. /usr/script/lib_xpon
+. /usr/script/lib_modules
+. /usr/script/lib_xdsl
+
+PROFILE_CFG=/userfs/profile.cfg
+if [ -f $PROFILE_CFG ] ; then
+    chmod 777 $PROFILE_CFG
+    . $PROFILE_CFG
+fi
+
+mount -a
+
+if [ "$TCSUPPORT_CT_DBUS" != "" ];then
+echo "framework_load"
+/usr/script/framework_load.sh
+if [ "$TCSUPPORT_CT_JOYME4" != "" ] ;then
+/bin/echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore
+fi
+fi
+
+/bin/busybox cp -a /usr/etc /tmp
+
+/bin/mkdir -m 0777 -p /tmp/var
+if [ "$TCSUPPORT_CUC" != "" ] ;then
+/bin/mkdir -m 0777 -p /tmp/run
+fi
+/bin/mkdir -m 0777 -p /var/lock
+/bin/mkdir -m 0777 -p /var/log
+/bin/mkdir -m 0777 -p /var/run
+/bin/mkdir -m 0777 -p /var/run/br0
+/bin/mkdir -m 0777 -p /var/sim
+/bin/mkdir -m 0777 -p /var/tmp
+if [ "$TCSUPPORT_CT_MIDWARE" != "" ] ;then
+/bin/mkdir -m 0777 -p /var/ct/tmp
+fi
+if [ "$TCSUPPORT_CT_WLAN_JOYME3" != "" ] ;then
+/bin/mkdir -m 0777 -p /var/ctcwifi
+fi
+
+if [ "$TCSUPPORT_CT_UBUS" != "" ] ;then
+/bin/mkdir -m 0777 -p /tmp/ctcap
+/bin/mkdir -m 0777 -p /tmp/ipks
+
+#/bin/busybox cp -a /usr/script/ipks /tmp/ipks
+/usr/script/ctcapd_framework_load.sh
+fi
+
+taskset 2 insmod /lib/modules/tcledctrl.ko
+taskset 2 /usr/script/netfilter_ko_load.sh &
+
+#add by mk, reinit some cfg value, this should after insmod tcledctrl.ko
+LAN_UP_PHY="-1"
+LAN_UP_CHANGE="0"
+if [ "$SKY_HARDWARE_VID" != "" ] ;then
+	#reinit TCSUPPORT_AE_WAN_SEL by lan_up_phy
+	LAN_UP_PHY=`cat /proc/tc3162/skylanport  | grep lan_up_phy: |  awk -F ':' '{print $2}'`
+	LAN_UP_CHANGE=`cat /proc/tc3162/skylanport  | grep lan_up_change: |  awk -F ':' '{print $2}'`
+
+	if [ "$LAN_UP_PHY" = "8" ] ;then
+		TCSUPPORT_AE_WAN_SEL=0
+		LAN_UP_PHY="25G_PON_SERDES"
+	elif [ "$LAN_UP_PHY" = "9" ] ;then
+		TCSUPPORT_AE_WAN_SEL=1
+		LAN_UP_PHY="25G"
+	elif [ "$LAN_UP_PHY" = "10" ] ;then
+		TCSUPPORT_AE_WAN_SEL=2
+		LAN_UP_PHY="25G"
+	elif [ "$LAN_UP_PHY" = "11" ] ;then
+		TCSUPPORT_AE_WAN_SEL=3
+		LAN_UP_PHY="25G"
+	elif [ "$LAN_UP_PHY" != "-1" ] ;then
+		LAN_UP_PHY="1G"
+		unset TCSUPPORT_AE_WAN_SEL
+	else
+		LAN_UP_PHY="-1"
+		unset TCSUPPORT_AE_WAN_SEL
+	fi
+
+	if [ "$LAN_UP_CHANGE" = "1" ] ;then
+		unset TCSUPPORT_AE_WAN_SEL
+	fi
+
+	echo sky reinit:TCSUPPORT_AE_WAN_SEL=$TCSUPPORT_AE_WAN_SEL
+	
+	################################
+	#reinit TCSUPPORT_HSGMII_LAN_WAN_SWITCH for
+	#modules_insmod_eth_lan_drivers()
+	#modules_insmod_eth_hsgmii_lan_drivers()
+	################################
+	if [ "$TCSUPPORT_AE_WAN_SEL" != "" ] ;then
+		TCSUPPORT_HSGMII_LAN_WAN_SWITCH=y
+	else
+		unset TCSUPPORT_HSGMII_LAN_WAN_SWITCH
+	fi
+	echo sky reinit:TCSUPPORT_HSGMII_LAN_WAN_SWITCH=$TCSUPPORT_HSGMII_LAN_WAN_SWITCH
+
+fi
+#add by mk end
+
+if [ "$SKY_HARDWARE_VID" != "" ] ;then
+/usr/script/vid_deviceParaStatic.sh
+fi
+
+
+#start ubusd & cfg_ng service
+taskset 2 /usr/script/cfg_ng_start.sh &
+
+if [ ! -f "/proc/tc3162/wan_2_5" ] ;then
+if [ "$TCSUPPORT_NP" = "" ] ;then
+taskset 4 /userfs/bin/omci &
+echo "omci start" > /tmp/omci_start
+fi
+fi
+
+if [ "$TCSUPPORT_CT_VRWAN" != "" ] || [ "$TCSUPPORT_NPTv6" != "" ] ;then
+taskset 2 insmod $KERNEL_DIR/kernel/net/ipv6/netfilter/ip6table_mangle.ko &
+fi
+if [ "$TCSUPPORT_CMCC" = "" ] ;then
+if [ "$TCSUPPORT_CFG_NG_UNION" != "" ] ;then
+taskset 2 insmod /lib/modules/attackprotector.ko &
+fi
+fi
+
+#mount
+MTD9_NAME=`/bin/cat /proc/mtd |grep mtd9 |cut -d " " -f 4`
+if [ "$MTD9_NAME" != "reservearea" ] ;then
+if [ "$TCSUPPORT_HGU_UPDATELANLIST" != "" ] ;then
+	mount -t jffs2 -o rw /dev/mtdblock9 /usr/ubifs/
+	echo "!!!!!!!!!!mount ubifs jffs2 success!"
+fi
+else
+	echo "!!!!!!!!!!WARNING:mount ubifs jffs2 fail!,mtd9 is reservearea!!!!!!!!!!!"
+fi
+
+
+#create reboot_info for dbus after ntpserver sync
+if [ "$TCSUPPORT_CT_JOYME2" != "" ] ;then
+echo 1 > /proc/sys/vm/panic_on_oom
+if [ "$TCSUPPORT_CT_DBUS" != "" ] ;then
+taskset 2 /userfs/bin/dbus_apps_info &
+fi
+fi
+
+#read flash to get bob
+xpon_get_7570bob
+
+#if [ "$TCSUPPORT_CT_MAXNET_DPI" != "" ] && [ "$TCSUPPORT_CMCC" = "" ] ;then
+#insmod /lib/modules/maxnetdpi.ko
+#fi
+
+if [ "$TCSUPPORT_CMCC" != "" ];then
+insmod /lib/modules/ethertype_filter.ko
+fi
+
+if [ "$TCSUPPORT_CT_DS_LIMIT" != "" ] ;then
+insmod /lib/modules/dataspeed_limit.ko
+fi
+
+insmod /lib/modules/tcfullcone.ko
+insmod /lib/modules/module_sel.ko
+
+modules_copy_led_config
+
+if [ "$TCSUPPORT_NP" = "" ] ;then
+if [ "$TCSUPPORT_CT_JOYME2" != "" ] ;then
+taskset 2 /userfs/bin/homenas &
+fi
+fi
+
+#if [ "$TCSUPPORT_SWNAT" != "" ] ;then
+#insmod /lib/modules/swnat.ko
+#fi
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+
+echo 1 > /proc/sys/net/ipv4/tcp_syncookies
+
+modules_set_nf_conntrack_max
+
+if [ "$TCSUPPORT_IPV6" != "" ] ;then
+echo "TCSUPPORT_IPV6"
+#Modify gc_stale_time for IPv6 self test
+echo 6000 > /proc/sys/net/ipv6/neigh/default/gc_stale_time
+
+echo 1 >/proc/sys/net/ipv6/conf/all/forwarding
+fi
+
+#krammer add for LAN can't continuous ping to WAN when exchenging the routing mode
+#bug1126
+echo 3 > /proc/sys/net/netfilter/nf_conntrack_icmp_timeout 
+
+echo 0 > /proc/sys/net/ipv4/conf/default/accept_source_route
+echo 0 > /proc/sys/net/ipv4/conf/all/accept_source_route
+
+if [ "$TCSUPPORT_CT_ACCESSLIMIT" != "" ] ;then
+taskset 2 insmod lib/modules/accesslimit.ko &
+fi
+
+
+taskset 2 insmod /lib/modules/tccicmd.ko
+
+modules_insmod_secureupgrade
+
+if [ "$TCSUPPORT_I2C" != "" ] ;then
+taskset 2 insmod /lib/modules/sif.ko
+fi
+
+if [ "$TCSUPPORT_USBDEVICE20" != "" ] ;then
+echo "TCSUPPORT_USBDEVICE20"
+#usb device
+insmod /lib/modules/tc3162_udc20.ko
+insmod /lib/modules/g_ether.ko
+fi
+
+#if [ "$TCSUPPORT_SOFT_RATELIMIT" != "" ] ;then
+#insmod /lib/modules/soft_rate_limit.ko
+#fi
+
+if [ "$TCSUPPORT_ASYM_VOD" != "" ] ;then
+echo "ASYM VOD"
+insmod /lib/modules/asym_vod.ko
+fi
+
+if [ "$TCSUPPORT_CT_PON" != "" ] ;then
+insmod /lib/modules/nlk_msg.ko
+fi
+
+
+#LED GPIO Settings
+CONFFILE=/etc/led.conf
+if [ -f $CONFFILE ]; then
+	chmod 777 $CONFFILE
+	. $CONFFILE
+fi
+if [ "$LAN" != "" ]; then
+	echo $LAN > /proc/tc3162/led_def
+fi
+
+/bin/echo 0 > /proc/net/auto_clear_cache
+/bin/echo 0 > /proc/net/auto_kill_process
+/bin/echo 1 > /proc/sys/kernel/panic
+	
+modules_proc_skb_limit_config
+
+modules_config_min_free_kbytes
+
+/bin/echo 500 > /proc/sys/net/core/netdev_max_backlog
+/bin/echo 3 > /proc/sys/net/netfilter/nf_conntrack_esp_timeout
+
+modules_insmod_crypto
+
+if [ "$TCSUPPORT_FWC_MCST" != "" ] ;then
+echo "insmod specific ecnt igmp snooping driver"
+insmod /lib/modules/ecnt_igmp.ko
+fi
+
+#add by mk,reinit TransMode by lan_up_phy
+if [ "$SKY_HARDWARE_VID" != "" ] ;then
+	if [ "$LAN_UP_PHY" = "25G" ] ;then
+	#2.5G lan up
+		/userfs/bin/tcapi set Wan.Common TransMode ActiveEtherWan
+	elif [ "$LAN_UP_PHY" = "25G_PON_SERDES" ] ;then
+	#2.5G lan up pon serdes
+		/userfs/bin/tcapi set Wan.Common TransMode ActiveEtherWan
+	elif [ "$LAN_UP_PHY" = "1G" ] ;then
+	#1G lan up
+		/userfs/bin/tcapi set Wan.Common TransMode Ethernet
+	fi
+fi
+#add by mk end
+
+TRANSMODE=`/userfs/bin/tcapi get Wan.Common TransMode`
+echo "Get Wan.Common TransMode=$TRANSMODE"
+
+if [ "$TCSUPPORT_CT_HGU_TRUE" != "" ] ;then
+if [ "$TCSUPPORT_TZN20_IDENTIFY" = "" ] ;then
+MeshRole=`/userfs/bin/tcapi get Mesh_Common DeviceRole`
+if [ "$MeshRole" = "2" ] ;then
+echo 2 > /proc/tc3162/true_xpon_role
+fi
+fi
+fi
+
+xdsl_insmod_mt7510ptm
+modules_insmod_eth_lan_drivers
+if [ "$TRANSMODE" = "Ethernet" ] ;then
+modules_insmod_eth_hsgmii_lan_drivers
+fi
+
+ifconfig eth0 0.0.0.0
+if [ "$TCSUPPORT_HSGMII_LAN" != "" ] ;then
+modules_eth1_up
+fi
+
+# if [ "$TRANSMODE" = "Ethernet" ] ;then
+# modules_eth1_up_switch_to_lan
+# fi
+
+modules_insmod_qdma
+if [ "$TRANSMODE" = "ActiveEtherWan" ] ;then
+modules_insmod_ae_wan
+fi
+
+modules_insmod_hw_nat
+
+modules_insmod_npu
+
+modules_xsi_wan_up
+if [ "$TRANSMODE" = "ActiveEtherWan" ] ;then
+modules_xsi_wan_up_switch_to_wan
+fi
+
+modules_config_tso_lan_rule
+
+modules_insmod_slm_verify
+
+xpon_config_interface_up
+
+modules_support_bonding
+
+modules_insmod_dmt
+
+if [ "$TCSUPPORT_HSGMII_LAN" != "" ] ;then
+	hsgmii_str=`cat /proc/tc3162/hsgmii_idx`
+	usb_hsgmii_idx=$(cat /proc/tc3162/hsgmii_idx | awk '{print $3}' | awk 'NR==1')
+	pcie0_hsgmii_idx=$(cat /proc/tc3162/hsgmii_idx | awk '{print $3}' | awk 'NR==2')
+	pcie1_hsgmii_idx=$(cat /proc/tc3162/hsgmii_idx | awk '{print $3}' | awk 'NR==3')
+	
+	if [ $usb_hsgmii_idx -ne -1 ] ;then
+		/usr/bin/sys memwl 1fb511f4 00030602
+	fi
+	if [ $pcie0_hsgmii_idx -ne -1 ] ;then
+		/usr/bin/sys memwl 1fb511f4 00030400
+	fi
+	if [ $pcie1_hsgmii_idx -ne -1 ] ;then
+		/usr/bin/sys memwl 1fb511f4 00030501
+	fi
+fi
+
+if [ "$TCSUPPORT_WAN_ETHER" != "" ] ;then
+if [ "$TCSUPPORT_NP_CMCC" != "" ] ;then
+taskset 2 ifconfig nas0_0 up &
+else
+taskset 2 ifconfig nas10 up &
+if [ "$TCSUPPORT_MAX_PACKET_2000" != "" ] ;then
+taskset 2 ifconfig nas10 mtu 2000 &
+fi
+fi
+fi
+if [ "$TCSUPPORT_CT_VLAN_TAG" != "" ] ;then
+taskset 2 insmod /lib/modules/vlantag_ct.ko 
+fi
+
+if [ "$TCSUPPORT_SMUX" != "" ] ;then
+taskset 2 insmod /lib/modules/multiwan.ko &
+fi
+
+if [ "$TCSUPPORT_PORTBIND" != "" ] && [ "$TCSUPPORT_CUC_SFU" = "" ] && [ "$TCSUPPORT_SDN_OVS" = "" ] ;then
+taskset 2 insmod /lib/modules/tcportbind.ko &
+fi
+
+brctl addbr br0
+brctl addif br0 eth0
+# if [ -f "/proc/tc3162/sys_has_2gmac" ] ;then
+# brctl addif br0 eth1
+# fi
+
+
+if [ "$TCSUPPORT_HSGMII_LAN" != "" ] ;then
+modules_add_br_eth1
+fi
+
+# if [ "$TRANSMODE" = "Ethernet" ] ;then
+# modules_add_br_eth1_switch_to_lan
+# fi
+
+if [ "$TCSUPPORT_USBDEVICE20" != "" ] ;then
+echo "TCSUPPORT_USBDEVICE20: brctl addif br0 usb0"
+brctl addif br0 usb0
+fi
+brctl setfd br0 0
+brctl stp br0 off
+
+ResetFlag=`/userfs/bin/tcapi get SysInfo_Entry ResetFlag`
+if [ "$ResetFlag" = "1" ] ;then
+echo "@@@factory test@@@, disable igmp all"
+echo 8 > /proc/sys/net/ipv4/conf/br0/arp_ignore
+echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all
+fi
+
+if [ "$ResetFlag" = "1" ] ;then
+echo "factory disable button"
+/usr/bin/sys button disable
+fi
+if [ ! -f "/proc/tc3162/wan_2_5" ] ;then
+if [ "$TCSUPPORT_NP" = "" ] ;then
+if [ "$TCSUPPORT_WAN_GPON" != "" ] || [ "$TCSUPPORT_WAN_EPON" != "" ] ;then
+#pon vlan 
+if [ "$TCSUPPORT_PON_VLAN" != "" ] ;then
+taskset 2 insmod /lib/modules/ponvlan.ko
+fi
+#pon igmp snooping
+if [ "$TCSUPPORT_XPON_IGMP" != "" ] ;then
+taskset 2 insmod /lib/modules/xpon_igmp.ko &
+taskset 2 echo bridge nas0_0 > /proc/tc3162/pon_bridge_wanIf &
+fi
+if [ "$TCSUPPORT_PON_MAC_FILTER" != "" ] ;then
+taskset 2 insmod /lib/modules/ponmacfilter.ko &
+fi
+
+if [ "$TCSUPPORT_CSC_EEUROPE" != "" ] ||  [ "$TCSUPPORT_MULTICAST_BSP_GENERAL" != "" ];then
+echo "mtk xpon multicast"
+insmod /lib/modules/mtk_xpon_multicast.ko
+fi
+fi
+if [ "$TRANSMODE" != "Ethernet" ] ;then
+taskset 2 /userfs/bin/ponmgr_cfg & 
+fi
+fi
+fi
+
+insmod /lib/modules/brg_shortcut.ko
+
+ifconfig eth0 | sed -n '1p' | sed 's/^.*HWaddr /WAN_MAC=/g' | sed 's/[ \t]*$//g' >> /etc/mac.conf
+ifconfig eth0 | sed -n '1p' | sed 's/^.*HWaddr /LAN_MAC=/g' | sed 's/[ \t]*$//g' >> /etc/mac.conf
+
+modules_config_vlanpt
+
+modules_config_eth_portmap
+
+modules_proc_skb_limit_config_for_wlan
+
+uptime=30;
+while [ ! -f "/tmp/call_boot_ok" ] && [ $uptime -gt 0 ]; do
+echo "/tmp/call_boot_ok is not exist, left time is $uptime"; 
+sleep 1;
+uptime=`expr $uptime - 1`;
+done;
+
+/userfs/bin/msg call 4097 boot
+
+if [ "$SKY_HARDWARE_VID" != "" ] ;then
+	isSupport25gPhy=`/userfs/bin/tcapi get Vid_Phy25Capability sky25phy`
+	if [ "$isSupport25gPhy" != "0" ] ;then
+		/usr/bin/killall -9 gpy211_init
+		taskset 2 /userfs/bin/gpy211_init &
+	fi
+else
+if [ "$TCSUPPORT_2_5G_LAN_GPY211" != "" ] || [ "$TCSUPPORT_2_5G_WAN_GPY211" != "" ] ;then
+	/usr/bin/killall -9 gpy211_init
+	taskset 2 /userfs/bin/gpy211_init &
+fi
+fi
+
+#USB Backup and Restore
+if [ "$TCSUPPORT_CT_USB_BACKUPRESTORE" != "" ] ;then
+/userfs/bin/mtd readflash /tmp/var/romfile.cfg~~ 65536 0 romfile
+fi
+
+modules_insmod_swqos
+
+if [ "$TCSUPPORT_FWC_TRAFFIC_CLASSIFY" != "" ] || [ "$TCSUPPORT_CMCCV2" != "" ] || [ "$TCSUPPORT_CUC" != "" ] ;then
+insmod /lib/modules/traffic_classify.ko
+fi
+
+if [ "$TCSUPPORT_CMCCV2" != "" ] ;then
+insmod /lib/modules/wlanshare.ko
+fi
+
+if [ "$TCSUPPORT_CMCCV2" != "" ] || [ "$TCSUPPORT_CUC" != "" ] ;then
+insmod /lib/modules/trafficprocess.ko
+fi
+
+kernel_support_qos
+
+if [ "$TCSUPPORT_IGMP_SNOOPING" != "" ] ;then
+insmod /lib/modules/igmpsnoop.ko
+fi
+
+if [ "$TCSUPPORT_MLD_SNOOPING" != "" ] ;then
+insmod /lib/modules/mldsnooping.ko
+fi
+
+if [ "$TCSUPPORT_CT_HGU_TRUE" != "" ] ;then
+MeshDeviceRole=`/userfs/bin/tcapi get MeshRoleExchange.entry.1 MeshRole`
+else
+MeshDeviceRole=`/userfs/bin/tcapi get Mesh_Common DeviceRole`
+fi
+if [ "$TCSUPPORT_CT_LOOPDETECT" != "" ] ;then
+if [ "$MeshDeviceRole" = "1" ] ;then
+if [ "$TCSUPPORT_NP" = "" ] ;then
+insmod /lib/modules/loopdetect.ko
+#modify by qijin 2022.12.10 for loopdetect init fail in cfg_ng due to loopdetect.ko have not insmod
+LoopExistPeriod=`/userfs/bin/tcapi get LoopDetect_Entry LoopExistPeriod`
+LoopCancelPeriod=`/userfs/bin/tcapi get LoopDetect_Entry LoopCancelPeriod`
+VlanTag=`/userfs/bin/tcapi get LoopDetect_Entry VlanTag`
+EthernetType=`/userfs/bin/tcapi get LoopDetect_Entry EthernetType`
+Enable=`/userfs/bin/tcapi get LoopDetect_Entry Enable`
+/bin/echo 1 $LoopExistPeriod > /proc/tc3162/loop_detect
+/bin/echo 2 $LoopCancelPeriod > /proc/tc3162/loop_detect
+/bin/echo 3 $VlanTag > /proc/tc3162/loop_detect
+/bin/echo 4 $EthernetType > /proc/tc3162/loop_detect
+/bin/echo 0 $Enable > /proc/tc3162/loop_detect
+#modify end
+fi
+fi
+fi
+
+if [ "$TCSUPPORT_EPON_DUMMY" != "" ] ;then
+insmod /lib/modules/bridgedetect.ko
+fi
+
+ifconfig lo 127.0.0.1
+route add -net 127.0.0.0 netmask 255.255.0.0 lo
+
+# if [ -f "/proc/tc3162/sys_has_2gmac" ] ;then
+# ifconfig eth1 0.0.0.0
+# fi	
+if [ "$TCSUPPORT_USBDEVICE20" != "" ] ;then
+echo "TCSUPPORT_USBDEVICE20: ifconfig usb0 0.0.0.0 up"
+ifconfig usb0 0.0.0.0 up
+fi
+
+/userfs/bin/ethphxcmd gsww 200c 10
+/userfs/bin/ethphxcmd gsww 210c 10
+/userfs/bin/ethphxcmd gsww 220c 10
+/userfs/bin/ethphxcmd gsww 230c 10
+/userfs/bin/ethphxcmd gsww 240c 10
+/userfs/bin/ethphxcmd gsww 260c 10
+
+if [ "$TCSUPPORT_SOFT_RATELIMIT" != "" ] ;then
+insmod /lib/modules/soft_rate_limit.ko
+fi
+
+if [ "$TCSUPPORT_CT_JOYME_BANDWIDTH" != "" ] ;then
+insmod /lib/modules/bandwidth.ko
+fi
+
+if [ "$TCSUPPORT_LRO_ENABLE" != "" ] ;then
+insmod /lib/modules/lro_lan.ko
+insmod /lib/modules/lro_wan.ko
+echo 1600000 > /proc/sys/net/core/rmem_max
+fi
+
+modules_insmod_l2tp_offload
+
+modules_insmod_gre_hw_offload
+
+modules_insmod_vxlan_hw_offload
+
+if [ "$TCSUPPORT_MACDUPDETECT" != "" ] ;then
+insmod /lib/modules/macdup_detect.ko
+fi
+
+if [ "$TCSUPPORT_VLAN_ACCESS_TRUNK" != "" ] ;then
+portbindcmd disable
+echo 1 > /sys/class/net/br0/bridge/vlan_filtering
+fi
+
+if [ "$TCSUPPORT_CT_URL_FILTER" != "" ] ;then
+insmod lib/modules/urlfilter.ko
+fi
+
+HOSTNAME=`/userfs/bin/tcapi get Snmpd_Entry sysName`
+# Set the hostname.
+echo $HOSTNAME > /etc/hostname
+hostname -F /etc/hostname
+rm -rf /etc/hostname
+
+taskset 2 tcwdog -t 1 /dev/watchdog &
+echo "dut_status:fail" > /tmp/startup_finished
+
+if [ "$TCSUPPORT_CT_NETWORKMANAGESERVICE" != "" ] ;then
+echo "TCSUPPORT_CT_NETWORKMANAGESERVICE:no need to start utelnetd up in rcs!"
+else
+taskset 2 utelnetd -l /bin/login -d 
+fi
+
+#Web server
+NOR_USER_NAME=`/userfs/bin/tcapi get Account_Entry2 username`
+if [ "$TCSUPPORT_CT_JOYME4" != "" ] ;then
+echo 1 > /proc/tc3162/capable_user_root_switch
+su - $NOR_USER_NAME -c "/userfs/bin/boa -c /boaroot -d -D 1 &"
+else
+taskset 2 /userfs/bin/boa -c /boaroot -d -D 1 &
+fi
+
+#network function
+if [ "$TCSUPPORT_CT_NETWORKMANAGESERVICE" != "" ] ;then
+echo "TCSUPPORT_CT_NETWORKMANAGESERVICE:no need to use inetd!"
+else
+if [ -f /etc/inetd.conf ]; then
+        /userfs/bin/inetd &
+fi
+fi
+
+#tftp server
+if [ "$TCSUPPORT_CT" = "" ] ;then
+/userfs/bin/tftpd &
+fi
+
+if [ "$TCSUPPORT_CT_UBUS" != "" ];then
+/usr/script/ctcapd_start.sh
+fi
+
+if [ "$TCSUPPORT_CMCCV2" != "" ] ;then
+/userfs/bin/dnshost & 
+fi
+
+if [ "$TCSUPPORT_CT_E8GUI" != "" ] ;then
+/userfs/bin/tcapi set Account_Entry0 Logged 0
+/userfs/bin/tcapi set Account_Entry1 Logged 0
+/userfs/bin/tcapi set Account_Entry2 Logged 0
+fi
+
+#USB Backup and Restore
+if [ "$TCSUPPORT_CT_USB_BACKUPRESTORE" != "" ] ;then
+sh /usr/script/restore.sh
+fi
+
+modules_config_lan_interface_mtu
+
+if [ "$TCSUPPORT_NP" = "" ] ;then
+#epon_dummy_detect
+if [ "$TCSUPPORT_EPON_DUMMY" != "" ] ;then
+/userfs/bin/epon_dummy_detect &
+sleep 1
+taskset -p 0x1 `pidof epon_dummy_detect`
+fi
+fi
+
+if [ "$TCSUPPORT_CMCC" = "" ] ;then
+if [ "$TCSUPPORT_CT_JOYME2" = "" ] ;then
+if [ "$TCSUPPORT_VOIP" != "" ] ;then
+if [ ! -f "/usr/ubifs/wificalflag" ] || [ "$ResetFlag" = 0 ] ;then
+/usr/script/voip_load.sh &
+fi
+fi
+fi
+fi
+
+if [ "$TCSUPPORT_CUC" != "" ] || [ "$TCSUPPORT_CT_PON_JS" != "" ] ;then
+/userfs/bin/hw_nat -U 60 60 60 60
+fi
+
+if [ "$TCSUPPORT_NP_CMCC" != "" ] ;then
+/userfs/bin/hw_nat -U 300 300 300 300
+fi
+
+if [ "$TCSUPPORT_GPON_ATTACK_ENHANCE" != "" ] ;then
+echo 1 64 128 100 > /proc/qdma/protect_mode
+echo 1 128 100 > /proc/tc3162/protect_mode
+fi
+
+if [ "$TCSUPPORT_CFG_NG_UNION" != "" ] ;then
+echo restoresw 1 >/proc/tc3162/vlan_tag_dbg 
+fi
+
+if [ "$TCSUPPORT_CT_DS_LIMIT" != "" ] ;then
+if [ "$TCSUPPORT_CT_JOYME_BANDWIDTH" != "" ] ;then
+/userfs/bin/tcapi set DataSpeedLimit_Entry isBOOT 1
+fi
+/userfs/bin/tcapi commit DataSpeedLimit
+fi
+
+if [ "$TCSUPPORT_GPON_ATTACK_ENHANCE" != "" ] ;then
+/bin/echo 1 64 128 100 > /proc/qdma/protect_mode
+/bin/echo 1 128 100 > /proc/tc3162/protect_mode
+fi
+
+if [ "$TCSUPPORT_FWC_MCST" != "" ] ;then
+/userfs/bin/hw_nat -V1
+fi
+
+if [ "$TCSUPPORT_BNDSTRG_WLAN" != "" ] ;then
+/etc/Wireless/RT2860AP/WLAN_bndstrg_exec.sh
+/etc/Wireless/RT2860AP_AC/WLAN_bndstrg_exec.sh
+fi
+
+if [ "$TCSUPPORT_CMCCV2" != "" ] ;then
+/userfs/bin/tcapi set System_Entry devicereboot 1
+/userfs/bin/tcapi commit System_Entry
+/userfs/bin/tcapi set System_Entry devicereboot 0
+fi
+
+modules_insmod_dying_gasp
+
+modules_irqCpuBind_and_sw_rps_config
+if [ "$TCSUPPORT_CT_DBUS" != "" ] || [ "$TCSUPPORT_CMCCV2" != "" ] ;then
+insmod /lib/modules/speedtest.ko
+fi
+
+if [ "$TCSUPPORT_CT_DBUS" != "" ];then
+insmod /lib/modules/info_utility.ko
+/userfs/bin/trafficvpninfo &
+/userfs/bin/process_monitor &
+/userfs/bin/cputemp socket &
+fi
+if [ "$TCSUPPORT_CT_UBUS" != "" ];then
+echo "start cpu temp"
+/userfs/bin/cputemp socket &
+fi
+if [ "$TCSUPPORT_VLAN_ACCESS_TRUNK" != "" ];then
+/usr/bin/portbindcmd disable
+echo 1 > /sys/class/net/br0/bridge/vlan_filtering
+fi
+
+if [ "$TCSUPPORT_CT_UBUS" != "" ];then
+if [ "$TCSUPPORT_CT_JOYME_BANDWIDTH" != "" ] ;then
+taskset 2 /userfs/bin/bandwidth & 
+fi
+fi
+
+if [ "$TCSUPPORT_SISM" != "" ];then
+if [ "$TCSUPPORT_SISM_HOST" != "" ];then
+echo "set hsm interface"
+
+if [ "$EN7517_FPGA" != "" ];then
+#7517 FPGA mode use nas10 as wan interface
+/usr/bin/smuxctl add bridge nas10 nas10_99 1 0 0 0
+else
+#7517 ASIC mode use ae_wan as wan interface
+#/usr/bin/smuxctl add bridge ae_wan nas10_99 3 99 0 0
+/usr/bin/smuxctl add ipoe ae_wan nas10_99 1 0 0 0
+fi
+
+IFACE=br0
+read BR_MAC < /sys/class/net/$IFACE/address
+
+ifconfig nas10_99 hw ether $BR_MAC
+
+ifconfig nas10_99 up
+
+/bin/echo 1 > /proc/sys/net/ipv6/conf/nas10_99/disable_ipv6
+
+#switch share pin for MDIO
+/usr/bin/sys modifybit 1fa20210 1 0
+/usr/bin/sys modifybit 1fa20210 2 0
+/usr/bin/sys modifybit 1fa20214 0 0
+/usr/bin/sys modifybit 1fa20214 20 0
+/usr/bin/sys modifybit 1fa20218 3 0
+/usr/bin/sys modifybit 1fa20218 13 1
+
+if [ "$EN7517_FPGA" != "" ];then
+#force link to 100M
+/userfs/bin/ethphxcmd portmode setspeed 4 100
+fi
+
+# hsm [interface] [reset gpio] [mdio phy addr] [MAC addr] [skip inic]
+
+
+MAC=$(echo $BR_MAC | sed 's/://g')
+REPLACE=$(expr substr "$MAC" 5 8)
+CLIENT_MAC=02e0$REPLACE
+
+if [ "$EN7517_FPGA" != "" ];then
+/userfs/bin/hsm nas10_99 16 24 $CLIENT_MAC 1 &
+else
+/userfs/bin/hsm nas10_99 16 24 $CLIENT_MAC 0 &
+fi
+
+
+insmod /lib/modules/client_info.ko
+
+#/usr/bin/smuxctl add bridge ae_wan atm 2 0 0 0
+#ifconfig atm down
+#insmod /lib/modules/en7517_host_sar.ko ethwan="atm"
+else
+echo "start csm"
+/userfs/bin/csm &
+fi
+fi
+
+
+
+modules_insmod_iptv_udpxy
+
+#detect power saving mode
+if [ -f /tmp/low_power ] ; then
+	/userfs/bin/pwctlcmd lowpwr 3
+fi
+
+if [ -f "/lib/modules/CpuPower.ko" ];then
+insmod /lib/modules/CpuPower.ko
+fi
+
+if [ -f "/lib/modules/thermal.ko" ] ;then
+insmod /lib/modules/thermal.ko module_arg1=37500 module_arg2=30000
+fi
+
+if [ "$TCSUPPORT_SISM_HOST" != "" ];then
+/sbin/sysctl -w net.netfilter.nf_conntrack_tcp_timeout_established=300
+fi
+
+if [ "$TCSUPPORT_HGU_UPDATELANLIST" != "" ] || [ "$TCSUPPORT_HGU_TELMEX" != "" ] ;then
+	/userfs/bin/UpdateLanList &
+	echo "start UpdateLanList finish!"
+fi
+
+#ResetFlag=`/userfs/bin/tcapi get SysInfo_Entry ResetFlag`
+if [ "$ResetFlag" = 1 ] ; then
+RogueFlag=`/userfs/bin/tcapi get GPON_ONU RogueMode`
+echo $RogueFlag
+if [ "$RogueFlag" = 1 ] ; then
+	sleep 2
+	/usr/bin/prolinecmd roguemode display
+fi
+fi
+
+#add by gerald 2023.06.20
+if [ "$TCSUPPORT_T3_ALF_IOT_APP" != "" ] ;then
+if [ "$ResetFlag" != 1 ] ; then
+if [ ! -e /usr/ubifs/alfIotPath ]; then
+	/bin/mkdir -m 0777 -p /usr/ubifs/alfIotPath
+fi
+	/usr/bin/killall -9 alf_iot_manage
+	taskset 2 /userfs/bin/alf_iot_manage -D 1&
+fi
+fi
+#end by gerald 2023.06.20
+
+#add by wangzhenming 2023.08.09
+if [ "$TCSUPPORT_MESHSYNC" != "" ] ;then
+if [ "$ResetFlag" != 1 ] ; then
+	/usr/bin/killall -9 meshsync_send
+	/usr/bin/killall -9 meshsync_recv	
+	/userfs/bin/meshsync_send 10 > /dev/console &
+	/userfs/bin/meshsync_recv > /dev/console &
+fi
+fi
+#end by wangzhenming 2023.08.09
+
+#add by gerald 2023.10.14
+if [ "$TCSUPPORT_WIFI_MICROAGENT_V2" != "" ] || [ "$TCSUPPORT_WIFI_MICROAGENT_V3" != "" ] ;then
+if [ "$ResetFlag" != 1 ] ; then
+if [ "$MeshDeviceRole" != "2" ] ;then
+	taskset 2 /usr/bin/AntManSrv &
+fi
+fi
+fi
+#end by gerald 2023.10.14
+
+if [ "$TCSUPPORT_WLAN" != "" ] ;then
+echo "dut_status:loading" > /tmp/startup_finished
+else
+echo "dut_status:ok" > /tmp/startup_finished
+fi
+#add by zhuzongkai for qdma set 20230817
+if [ "$SKY_HARDWARE_VID" != "" ] && [ "$TCSUPPORT_QDMA_WAN_FOR_ETHER" != "" ] ;then
+echo "qdma wan set" > /proc/tc3162/eth_qdma_wan_set
+fi
+#end by zhuzongkai 20230817
+#this must at the end of RCS----end

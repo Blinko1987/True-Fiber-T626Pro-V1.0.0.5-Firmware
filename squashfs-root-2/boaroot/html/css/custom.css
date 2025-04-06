@@ -1,0 +1,33 @@
+.icon-svg {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+#progress-bar-value {
+    width: 50%;
+    height: 7px;
+    background-color: red;
+}
+
+#progress-bar {
+    width: 100%;
+    background-color: #ddd;
+}
+
+.card-progress-bar {
+    width: 80%;
+    padding-left: 2rem;
+    margin-top: 0.3rem;
+}
+
+.card-img {
+    /* padding-left: 5px; */
+    color: red;
+}
+
+.card-action {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    margin-left: -80px;
+}

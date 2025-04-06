@@ -1,0 +1,18 @@
+#!/bin/sh
+### Functions for xdsl
+### Define function name start with xdsl_*, for example xdsl_insmod_mt7510ptm
+
+PROFILE_CFG=/userfs/profile.cfg
+if [ -f $PROFILE_CFG ] ; then
+    chmod 777 $PROFILE_CFG
+    . $PROFILE_CFG
+fi
+
+xdsl_insmod_mt7510ptm()
+{
+	if [ -f "/proc/tc3162/sys_has_ptm" ] ;then
+		if [ "$TCSUPPORT_CT_WAN_PTM" != "" ] ;then
+			insmod /lib/modules/mt7510ptm.ko
+		fi
+	fi
+}

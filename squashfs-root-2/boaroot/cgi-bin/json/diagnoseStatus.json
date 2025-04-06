@@ -1,0 +1,16 @@
+{
+<% if tcWebApi_get("mesh_common", "DeviceRole","h") = "2" then %>
+	"MeshStatus":     "<%tcWebApi_get("Mesh_Common","MeshStatus","s")%>",
+<% end if%>
+	"Wlan2GEnable": "<%tcWebApi_get("WLan_Common","APOn","s")%>",
+	"Wlan5GEnable": "<%tcWebApi_get("WLan11ac_Common","APOn","s")%>",
+	"DnsAddress":   "<%tcWebApi_get("WanInfo_Entry0","DNS","s")%>",
+	"WanState":     "<%tcWebApi_get("WanInfo_Entry0","Status","s")%>",
+	"WANEnNAT":     "<%tcWebApi_get("WanInfo_Common","WANEnNAT","s")%>",
+	"WanName":     "<%tcWebApi_get("WanInfo_Common","WanName","s")%>",
+	"WanIP4":     "<%tcWebApi_get("WanInfo_Common","Wan_IP4","s")%>",
+	"WanDns4":     "<%tcWebApi_get("WanInfo_Common","Wan_DNS4","s")%>",
+	"WanDns6":     "<%tcWebApi_get("WanInfo_Common","Wan_DNS6","s")%>",
+	"DhcpEnable":   "<%tcWebApi_get("Lan_Dhcp","type","s")%>",
+	"wanStatus":    "<%tcWebApi_get("XPON_Common","wanstatus","s")%>"
+}

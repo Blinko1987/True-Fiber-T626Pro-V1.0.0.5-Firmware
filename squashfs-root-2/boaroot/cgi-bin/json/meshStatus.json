@@ -1,0 +1,4 @@
+{
+	"meshEnable":<%tcWebApi_get("Mesh_dat","MapEnable","s")%>,
+	"deviceRole":<%tcWebApi_get("Mesh_common","DeviceRole","s")%>
+}
