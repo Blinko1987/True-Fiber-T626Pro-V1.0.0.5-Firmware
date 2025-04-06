@@ -1,4 +1,5 @@
 # True-Fiber-T626Pro-V1.0.0.5-Firmware
+Anaylzing this firmware out of a GPON device from Thailand.
 If your just here for Passwords to get into the device here you go
 ```xml
 <FtpEntry Active="No" ftp_username="admin" ftp_passwd="skyworth" ftp_port="21" />
