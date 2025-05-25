@@ -10,7 +10,8 @@ If your just here for Passwords to get into the device here you go. You can try 
 <FtpEntry Active="No" ftp_username="admin" ftp_passwd="skyworth" ftp_port="21" />
 ```
 to permenatly set telnet so you no longer have to use a UART connection:
-```tcapi set Account_TelnetEntry Active Yes
+```
+tcapi set Account_TelnetEntry Active Yes
 tcapi set Account_TelnetEntry telnet_passwd <your password>
 tcapi set Account_TelnetEntry telnet_port 23
 tcapi commit Account_TelnetEntry```
