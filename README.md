@@ -26,4 +26,5 @@ Or if you want to confuse 3BB and possible start a local ISP engineering war sen
 tcapi set cwmp_Entry acsUrl http://acshuawei.3bb.co.th:9090/tr069
 tcapi set cwmp_Entry acsUserName cpe                             
 tcapi set cwmp_Entry acsUserPassword cpe
+tcapi commit cwmp_Entry
 ```
