@@ -1,6 +1,6 @@
 # True-Fiber-T626Pro-V1.0.0.5-Firmware
 Anaylzing this firmware out of a GPON device from Thailand.
-You can try this Superadmin password but I believe it is different on every device. At least the two devices I had, both had different superadmin passwords. To get yours you need to Get a UART connection on the device using TX, RX, and Ground, power up the device and listen at baud rate 115200, once its finish log into the console using the console user and password below. Then read the contents of your ctromfile by cd /tmp and cat ctromfile.cfg | grep -i superadmin
+You can try this Superadmin password but I believe it is different on every device. At least the two devices I had, both had different superadmin passwords. To get yours you need to Get a UART connection on the device using TX, RX, and Ground, power up the device and listen at baud rate 115200, once its finish log into the console using the console user and password below. Then read the contents of your ctromfile by cd /tmp and cat ctromfile.cfg | grep -i superadmin. The contents of the ctromfile.cfg also contains the information you need to clone your device to something like an XPON stick.
 ```xml
 <FtpEntry Active="No" ftp_username="admin" ftp_passwd="skyworth" ftp_port="21" />
 <ConsoleEntry Active="Yes" console_username="admin" console_passwd="$!%^kyw0rth" />
@@ -15,3 +15,4 @@ tcapi set Account_TelnetEntry Active Yes
 tcapi set Account_TelnetEntry telnet_passwd <your password>
 tcapi set Account_TelnetEntry telnet_port 23
 tcapi commit Account_TelnetEntry```
+
