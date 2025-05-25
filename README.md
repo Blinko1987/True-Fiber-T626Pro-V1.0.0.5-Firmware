@@ -14,5 +14,16 @@ to permenatly set telnet so you no longer have to use a UART connection:
 tcapi set Account_TelnetEntry Active Yes
 tcapi set Account_TelnetEntry telnet_passwd <your password>
 tcapi set Account_TelnetEntry telnet_port 23
-tcapi commit Account_TelnetEntry```
-
+tcapi commit Account_TelnetEntry
+```
+Disabling TR069 by setting CWMP_Entry Active to No doesn't work as there is a read only script to restart it if its down. So just set the acsUrl to something bogus like http://example.com
+```
+tcapi set cwmp_Entry acsUrl http://example.com
+tcapi commit cwmp_Entry
+```
+Or if you want to confuse 3BB and possible start a local ISP engineering war send the TR069 requests their way: 
+```
+tcapi set cwmp_Entry acsUrl http://acshuawei.3bb.co.th:9090/tr069
+tcapi set cwmp_Entry acsUserName cpe                             
+tcapi set cwmp_Entry acsUserPassword cpe
+```
