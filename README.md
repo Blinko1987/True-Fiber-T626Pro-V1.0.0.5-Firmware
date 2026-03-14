@@ -13,9 +13,10 @@ This is necessary as all GPONS have different Superadmin passwords and telnet is
 
 2. Open serial terminal (PuTTY, minicom, screen, etc.) at 115200 bps
 
-3. Power on device → let it fully boot to login prompt
+3. Power on device → let it fully boot to login prompt and press enter. You will
+   have a login screen.
 
-4. Login  
+5. Login  
    Username: ```admin```
    Password: ```$!%^kyw0rth```
 
