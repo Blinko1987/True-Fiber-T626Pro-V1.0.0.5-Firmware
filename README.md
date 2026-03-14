@@ -3,8 +3,10 @@
 Modified/extracted firmware for True Fiber T626Pro ONT.
 
 ## Accessing Superadmin via UART
+This is necessary as all GPONS have different Superadmin passwords. Alternatively send me your backup config which 
+you can get from your admin credentials and I'll get it for you.
 
-1. Connect UART  
+1. Connect UART (soldering required) 
    - GND → board GND  
    - TX (adapter) → RX (board)  
    - RX (adapter) → TX (board)  
@@ -18,6 +20,9 @@ Modified/extracted firmware for True Fiber T626Pro ONT.
    Username: `admin`  
    Password: `$!%^kyw0rth`
 
+Get superadmin credentials
+`cat /var/romfile.cfg | grep -i superadmin`
+
 5. Enable Telnet (persistent)
 ```
 tcapi set Account_TelnetEntry Active Yes
@@ -26,7 +31,6 @@ tcapi set Account_TelnetEntry telnet_port 23
 tcapi commit Account_TelnetEntry
 tcapi save
 ```
-Get superadmin credentials
-`cat /var/romfile.cfg | grep -i superadmin`
 
-Use revealed username/password for web login (usually 192.168.1.1).
+
+
