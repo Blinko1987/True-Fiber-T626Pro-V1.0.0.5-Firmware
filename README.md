@@ -17,11 +17,11 @@ you can get from your admin credentials and I'll get it for you.
 3. Power on device → let it fully boot to login prompt
 
 4. Login  
-   Username: `admin`  
-   Password: `$!%^kyw0rth`
+   Username: ```admin```
+   Password: ```$!%^kyw0rth```
 
 Get superadmin credentials
-`cat /var/romfile.cfg | grep -i superadmin`
+```cat /var/romfile.cfg | grep -i superadmin```
 
 5. Enable Telnet (persistent)
 ```
