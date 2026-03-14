@@ -1,0 +1,41 @@
+#!/bin/sh
+
+/userfs/bin/ethphxcmd portmirror enable 1 2
+/userfs/bin/ethphxcmd portmirror port-based 6 0 1 1 1 1
+/userfs/bin/hw_nat -U 9999 9999 9999 9999
+/usr/bin/sys memwl bfb55004 9c0a0075
+/usr/bin/sys memwl bfb51528 ffff
+/usr/bin/sys memwl bfb51524 ffffffff
+/usr/bin/sys memwl bfb5140c ffffffff
+/usr/bin/sys memwl bfb51500 03804444
+/usr/bin/sys memwl bfb5151c 7d001
+/usr/bin/sys memwl bfb50e1c cfbc
+/usr/bin/sys memwl bfb00070 0
+/bin/kill `pidof tcwdog`
+
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1024 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1025 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1025 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1026 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1026 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1027 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1027 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1028 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1028 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1029 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1029 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1030 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1030 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1031 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1031 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1032 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1032 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1033 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1033 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1034 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1034 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1035 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1035 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1036 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1036 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1037 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1037 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1038 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1038 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1039 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1039 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1040 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1040 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1041 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1041 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1042 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1042 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1043 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1043 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1044 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1044 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1045 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1045 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1046 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1046 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1047 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1047 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1048 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:00:00:00:00:11 -i 00:aa:bb:01:23:45 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1048 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1049 -x 0 -y 0 -W 0 -v Udp -Y 0 -z 00fff0C0
+/userfs/bin/hw_nat -a -h 00:aa:bb:01:23:45 -i 00:00:00:00:00:22 -j 192.85.1.2 -k 192.0.0.1 -l 1024 -m 1049 -n 192.85.1.2 -o 192.0.0.1 -p 1024 -q 1050 -x 0 -y 0 -W 1 -v Udp -Y 0 -t 2 -z 00fff020

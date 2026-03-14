@@ -1,0 +1,74 @@
+#!/bin/sh
+### Functions for xpon
+### Define function name start with xpon_*, for example xpon_start_omci
+
+PROFILE_CFG=/userfs/profile.cfg
+if [ -f $PROFILE_CFG ] ; then
+    . $PROFILE_CFG
+fi
+
+xpon_get_7570bob()
+{
+	#add for 7570 
+	if [ "$TCSUPPORT_MT7570" != "" ] ;then
+		/usr/bin/prolinecmd mt7570bob get
+	fi
+}
+
+xpon_config_interface_up()
+{
+	if [ ! -f "/proc/tc3162/wan_2_5" ] ;then
+		### for MT7520 modules install
+		if [ "$TCSUPPORT_NP" = "" ] ;then
+			if [ "$TCSUPPORT_CT_PON" != "" ] ;then
+				if [ "$TCSUPPORT_CPU_EN7580" != "" ] ;then
+					insmod /lib/modules/phy_10g.ko
+					#PMA_OPT setting
+					PON_PHY_PMA_OPT_STR=`cat /userfs/pma_opt.conf | grep PON_PHY_PMA_OPT_STR_SEL`
+					PON_PHY_PMA_OPT_VAL=${PON_PHY_PMA_OPT_STR#*=}
+					echo set_pma_opt $PON_PHY_PMA_OPT_VAL >/proc/pon_phy/debug
+				else
+					insmod /lib/modules/phy.ko
+				fi
+				TRANSMODE=`/userfs/bin/tcapi get Wan.Common TransMode`
+				if [ "$TRANSMODE" != "Ethernet" ] ;then
+					if [ "$TCSUPPORT_CPU_EN7580" != "" ] ;then
+						XPONMODE=`cat /proc/tc3162/sys_xpon_mode`
+						echo "$XPONMODE"
+						if [ "$XPONMODE" = "1" ] ;then
+							insmod /lib/modules/xpon.ko
+						else
+							insmod /lib/modules/xpon_10g.ko
+						fi
+						insmod /lib/modules/xpon_int.ko
+					else
+						insmod /lib/modules/xpon.ko
+						if [ "$TCSUPPORT_CPU_EN7523" != "" ] ;then
+							taskset 2 insmod /lib/modules/xpon_int.ko
+						fi
+					fi
+				fi
+				
+				taskset 2 ifconfig pon up &
+				if [ "$TCSUPPORT_WAN_GPON" != "" ] ;then
+					taskset 2 ifconfig omci up &
+				fi
+				if [ "$TCSUPPORT_WAN_EPON" != "" ] ;then
+					ifconfig oam up
+				fi
+				if [ "$TCSUPPORT_GPON_MAPPING" != "" ] || [ "$TCSUPPORT_EPON_MAPPING" != "" ] ;then
+					taskset 2 insmod /lib/modules/xponmap.ko
+				fi
+			fi
+		
+			taskset 2 insmod /lib/modules/gpon_flow.ko
+		fi
+	fi
+}
+
+
+
+
+
+
+

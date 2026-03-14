@@ -1,0 +1,11 @@
+{
+	"Wan_All_IP4":      "<%tcWebApi_get("WanInfo_Common","Wan_IP4","s")%>",
+	"Wan_All_DNS4":     "<%tcWebApi_get("WanInfo_Common","Wan_DNS4","s")%>",
+	"Wan_All_SecDNS4":  "<%tcWebApi_get("WanInfo_Common","Wan_SecDNS4","s")%>",
+	"Wan_All_IP6":      "<%tcWebApi_get("WanInfo_Common","Wan_IP6","s")%>",
+	"Wan_All_DNS6":     "<%tcWebApi_get("WanInfo_Common","Wan_DNS6","s")%>",
+	"Wan_All_SecDNS6":  "<%tcWebApi_get("WanInfo_Common","Wan_SecDNS6","s")%>",
+	"Wan_All_IPVERSION":"<%tcWebApi_get("WanInfo_Common","Wan_IPVERSION","s")%>",
+	"Wan_All_Actives":  "<%tcWebApi_get("WanInfo_Common","Wan_Actives","s")%>",
+	"wanStatus":    "<%tcWebApi_get("XPON_Common","wanstatus","s")%>"
+}

@@ -1,0 +1,65 @@
+{
+"topology information":[ 
+{
+"AL MAC":"00:aa:bb:01:23:44",
+"Map version":"02",
+"Device role":"01",
+"Distance from controller":"0",
+"BH Interface(AP)":[
+],
+"BH Interface(APCLI)":[
+],
+"backhaul link metrics":[
+],
+"Number of radios":"2",
+"Radio Info":[
+{
+"channel":"36",
+"identifier":"00:00:00:00:01:01",
+"wireless mode":"MODE_HE",
+"Tx Spatial streams":"2",
+"Rx Spatial streams":"2",
+"BSSINFO":[{
+"BSSID":"02:aa:bb:91:23:44",
+"SSID":"Pirat 5G",
+"Security":"0020",
+"Encryption":"0008",
+"Pass-phrase":"56456740",
+"Hidden":"0"},
+{
+"BSSID":"00:aa:bb:01:23:45",
+"SSID":"Easymesh_Backhaul_5G_BF247820",
+"Security":"0020",
+"Encryption":"0008",
+"Pass-phrase":"R6OrSYKsQIKqS6OrS6OrSnKkSIKtS6On",
+"Hidden":"1"}]
+},
+{
+"channel":"1",
+"identifier":"00:00:00:00:01:00",
+"wireless mode":"MODE_HE",
+"Tx Spatial streams":"2",
+"Rx Spatial streams":"2",
+"BSSINFO":[{
+"BSSID":"02:aa:bb:11:23:44",
+"SSID":"Pirat 2.4G",
+"Security":"0020",
+"Encryption":"0008",
+"Pass-phrase":"56456740",
+"Hidden":"0"},
+{
+"BSSID":"00:aa:bb:01:23:44",
+"SSID":"Easymesh_Backhaul_2.4G_BF247820",
+"Security":"0020",
+"Encryption":"0008",
+"Pass-phrase":"R6OrSYKsQIKqS6OrS6OrSnKkSIKtS6On",
+"Hidden":"1"}]
+}],
+"BH Info":[
+
+],
+"Other Clients Info":[
+
+]
+}]
+}

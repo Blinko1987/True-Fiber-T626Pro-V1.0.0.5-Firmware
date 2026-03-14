@@ -1,0 +1,18 @@
+Path: /home/liujianfeng/Auto_compile/7529_TRUE_TEN24_TZN20_AX3000
+Working Copy Root Path: /home/liujianfeng/Auto_compile/7529_TRUE_TEN24_TZN20_AX3000
+URL: svn://svn01.sdt.com/sw10_internetTech/NewTech/SkyPON/ECONET/platform-testing/7529_TRUE_T626ProV2_AX3000_20240828/7529_TRUE_TEN24_TZN20_AX3000
+Relative URL: ^/NewTech/SkyPON/ECONET/platform-testing/7529_TRUE_T626ProV2_AX3000_20240828/7529_TRUE_TEN24_TZN20_AX3000
+Repository Root: svn://svn01.sdt.com/sw10_internetTech
+Repository UUID: 10bbf719-5a4d-4b3d-9d90-90ba19506811
+Revision: 65907
+Node Kind: directory
+Schedule: normal
+Last Changed Author: liujianfeng
+Last Changed Rev: 65906
+Last Changed Date: 2024-11-02 16:30:05 +0800 (Sat, 02 Nov 2024)
+
+Profile:TRUE_EN7529_TEN24_T626ProV2_VID38_7916D_USB_DONGLE_HSGMII_MAP
+Version:V1.0.04p5
+SupportModelName:T626ProV2
+Build time:2024-11-02 17:02:44
+Builder:liujianfeng

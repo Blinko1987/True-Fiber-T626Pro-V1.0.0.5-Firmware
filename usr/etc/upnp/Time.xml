@@ -1,0 +1,130 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+<specVersion>
+<major>1</major>
+<minor>0</minor>
+</specVersion>
+<actionList>
+<action>
+<name>GetInfo</name>
+<argumentList>
+<argument>
+<name>NewCurrentLocalTime</name>
+<direction>out</direction>
+<relatedStateVariable>CurrentLocalTime</relatedStateVariable>
+</argument>
+</argumentList>
+</action>
+<action>
+<name>SetNTPServers</name>
+<argumentList>
+<argument>
+<name>NewNTPServer1</name>
+<direction>in</direction>
+<relatedStateVariable>NTPServer1</relatedStateVariable>
+</argument>
+<argument>
+<name>NewNTPServer2</name>
+<direction>in</direction>
+<relatedStateVariable>NTPServer2</relatedStateVariable>
+</argument>
+<argument>
+<name>NewNTPServer3</name>
+<direction>in</direction>
+<relatedStateVariable>NTPServer3</relatedStateVariable>
+</argument>
+<argument>
+<name>NewNTPServer4</name>
+<direction>in</direction>
+<relatedStateVariable>NTPServer4</relatedStateVariable>
+</argument>
+<argument>
+<name>NewNTPServer5</name>
+<direction>in</direction>
+<relatedStateVariable>NTPServer5</relatedStateVariable>
+</argument>
+</argumentList>
+</action>
+<action>
+<name>SetLocalTimeZone</name>
+<argumentList>
+<argument>
+<name>NewLocalTimeZone</name>
+<direction>in</direction>
+<relatedStateVariable>LocalTimeZone</relatedStateVariable>
+</argument>
+<argument>
+<name>NewLocalTimeZoneName</name>
+<direction>in</direction>
+<relatedStateVariable>LocalTimeZoneName</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDaylightSavingUsed</name>
+<direction>in</direction>
+<relatedStateVariable>DaylightSavingUsed</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDaylightSavingStart</name>
+<direction>in</direction>
+<relatedStateVariable>DaylightSavingStart</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDaylightSavingEnd</name>
+<direction>in</direction>
+<relatedStateVariable>DaylightSavingEnd</relatedStateVariable>
+</argument>
+<argument>
+<name>NewCurrentLocalTime</name>
+<direction>in</direction>
+<relatedStateVariable>CurrentLocalTime</relatedStateVariable>
+</argument>
+</argumentList>
+</action>
+</actionList>
+<serviceStateTable>
+<stateVariable sendEvents="no">
+<name>CurrentLocalTime</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>NTPServer1</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>NTPServer2</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>NTPServer3</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>NTPServer4</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>NTPServer5</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>LocalTimeZone</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>LocalTimeZoneName</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DaylightSavingUsed</name>
+<dataType>boolean</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DaylightSavingStart</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DaylightSavingEnd</name>
+<dataType>string</dataType>
+</stateVariable>
+</serviceStateTable>
+</scpd>

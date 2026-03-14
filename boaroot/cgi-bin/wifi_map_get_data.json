@@ -1,0 +1,4 @@
+<% tcWebApi_MeshJsonHook("mesh_get_run_time_topology") %>
+<% tcWebApi_MeshJsonHook("mesh_get_ap_bh_inf_list") %>
+<% tcWebApi_MeshJsonHook("mesh_get_ap_fh_inf_list") %>
+<% tcWebApi_MeshJsonHook("mesh_get_client_capabilities") %>

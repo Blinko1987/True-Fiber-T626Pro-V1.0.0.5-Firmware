@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+<specVersion>
+<major>1</major>
+<minor>0</minor>
+</specVersion>
+<actionList>
+<action>
+<name>SetEnable</name> 
+<argumentList>
+<argument>
+<name>NewEnable</name>
+<direction>in</direction>
+<relatedStateVariable>Enable</relatedStateVariable>
+</argument>		
+</argumentList>     
+</action>
+<action>
+<name>GetInfo</name>
+<argumentList>
+<argument>
+<name>NewEnable</name>
+<direction>out</direction>
+<relatedStateVariable>Enable</relatedStateVariable>
+</argument>
+<argument>
+<name>NewStatus</name>
+<direction>out</direction>
+<relatedStateVariable>Status</relatedStateVariable>
+</argument>
+<argument>
+<name>NewModulationType</name>
+<direction>out</direction>
+<relatedStateVariable>ModulationType</relatedStateVariable>
+</argument>
+<argument>
+<name>NewLineEncoding</name>
+<direction>out</direction>
+<relatedStateVariable>LineEncoding</relatedStateVariable>
+</argument>
+<argument>
+<name>NewUpstreamCurrRate</name>
+<direction>out</direction>
+<relatedStateVariable>UpstreamCurrRate</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDownstreamCurrRate</name>
+<direction>out</direction>
+<relatedStateVariable>DownstreamCurrRate</relatedStateVariable>
+</argument>
+<argument>
+<name>NewUpstreamMaxRate</name>
+<direction>out</direction>
+<relatedStateVariable>UpstreamMaxRate</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDownstreamMaxRate</name>
+<direction>out</direction>
+<relatedStateVariable>DownstreamMaxRate</relatedStateVariable>
+</argument>
+<argument>
+<name>NewUpstreamNoiseMargin</name>
+<direction>out</direction>
+<relatedStateVariable>UpstreamNoiseMargin</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDownstreamNoiseMargin</name>
+<direction>out</direction>
+<relatedStateVariable>DownstreamNoiseMargin</relatedStateVariable>
+</argument>
+<argument>
+<name>NewUpstreamAttenuation</name>
+<direction>out</direction>
+<relatedStateVariable>UpstreamAttenuation</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDownstreamAttenuation</name>
+<direction>out</direction>
+<relatedStateVariable>DownstreamAttenuation</relatedStateVariable>
+</argument>
+<argument>
+<name>NewUpstreamPower</name>
+<direction>out</direction>
+<relatedStateVariable>UpstreamPower</relatedStateVariable>
+</argument>
+<argument>
+<name>NewDownstreamPower</name>
+<direction>out</direction>
+<relatedStateVariable>DownstreamPower</relatedStateVariable>
+</argument>
+<argument>
+<name>NewATURVendor</name>
+<direction>out</direction>
+<relatedStateVariable>ATURVendor</relatedStateVariable>
+</argument>
+<argument>
+<name>NewATURCountry</name>
+<direction>out</direction>
+<relatedStateVariable>ATURCountry</relatedStateVariable>
+</argument>
+<argument>
+<name>NewATUCVendor</name>
+<direction>out</direction>
+<relatedStateVariable>ATUCVendor</relatedStateVariable>
+</argument>
+<argument>
+<name>NewATUCCountry</name>
+<direction>out</direction>
+<relatedStateVariable>ATUCCountry</relatedStateVariable>
+</argument>
+<argument>
+<name>NewX_actualBitrateNearInt</name>
+<direction>out</direction>
+<relatedStateVariable>X_actualBitrateNearInt</relatedStateVariable>
+</argument>
+<argument>
+<name>NewX_actualBitrateNearFast</name>
+<direction>out</direction>
+<relatedStateVariable>X_actualBitrateNearFast</relatedStateVariable>
+</argument><argument>
+<name>NewX_actualBitrateFarInt</name>
+<direction>out</direction>
+<relatedStateVariable>X_actualBitrateFarInt</relatedStateVariable>
+</argument><argument>
+<name>NewX_actualBitrateFarFast</name>
+<direction>out</direction>
+<relatedStateVariable>X_actualBitrateFarFast</relatedStateVariable>
+</argument>
+</argumentList>      
+</action>   	
+</actionList>
+<serviceStateTable>
+<stateVariable sendEvents="no">
+<name>Enable</name>
+<dataType>boolean</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>Status</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ModulationType</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>LineEncoding</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>UpstreamCurrRate</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DownstreamCurrRate</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>UpstreamMaxRate</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DownstreamMaxRate</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>UpstreamNoiseMargin</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DownstreamNoiseMargin</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>UpstreamAttenuation</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DownstreamAttenuation</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>UpstreamPower</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>DownstreamPower</name>
+<dataType>i4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ATURVendor</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ATURCountry</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ATUCVendor</name>
+<dataType>string</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>ATUCCountry</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>X_actualBitrateNearInt</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>X_actualBitrateNearFast</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>X_actualBitrateFarInt</name>
+<dataType>ui4</dataType>
+</stateVariable>
+<stateVariable sendEvents="no">
+<name>X_actualBitrateFarFast</name>
+<dataType>ui4</dataType>
+</stateVariable>	
+</serviceStateTable>  
+</scpd>

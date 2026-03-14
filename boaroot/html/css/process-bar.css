@@ -1,0 +1,124 @@
+.card-download {
+    background-image: url("../icon/download.png") !important;
+    background-size: 25px !important;
+    background-position: 90% 10% !important;
+    background-repeat: no-repeat, repeat !important;
+    background-color: #FFFFFF !important;
+}
+
+.card-upload {
+    background-image: url("../icon/upload.png") !important;
+    background-size: 25px !important;
+    background-position: 90% 10% !important;
+    background-repeat: no-repeat, repeat !important;
+    background-color: #FFFFFF !important;
+}
+
+svg {
+    height: 100%;
+    width: 100%;
+    margin: auto;
+    display: block;
+}
+
+path.round {
+    stroke-linecap: round;
+    stroke-width: 5;
+}
+
+path.bg {
+    stroke: lightgrey;
+}
+
+path.process-download {
+    stroke: #3E6CA6;
+    /* background: linear-gradient(180deg, #3E6CA6 0%, #3497BB 100%); */
+    stroke-dasharray: calc(40 * 3.142 * 1.85);
+    stroke-dashoffset: calc(240*(100/100));
+    /* adjust last number for variance */
+    animation: dash 2s linear forwards;
+}
+
+path.process-upload {
+    stroke: #E4262C;
+    /* background: linear-gradient(180deg, #3E6CA6 0%, #3497BB 100%); */
+    stroke-dasharray: calc(40 * 3.142 * 1.85);
+    stroke-dashoffset: calc(240*(100/100));
+    /* adjust last number for variance */
+    animation: dash 2s linear forwards;
+}
+
+@keyframes dash {
+    from {stroke-dashoffset: 240;}
+    to {stroke-dashoffset: 80;}
+}
+
+text.value-download {
+    fill: #3E6CA6;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+text.value-upload {
+    fill: #E4262C;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 25px;
+}
+
+text.unit {
+    fill: #5D646E;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 5px;
+    line-height: 10px;
+}
+
+text.title {
+    fill: #5D646E;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 10px;
+    line-height: 15px;
+}
+
+text.subtitle {
+    fill: #5D646E;
+    font-style: normal;
+    /* font-weight: bold; */
+    font-size: 8px;
+    line-height: 10px;
+}
+
+text.text {
+    fill: #5D646E;
+    font-style: normal;
+    /* font-weight: bold; */
+    font-size: 5px;
+    line-height: 10px;
+}
+
+text.stats-download {
+    fill: #3E6CA6;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+text.stats-upload {
+    fill: #E4262C;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+}
+
+text.bit {
+    fill: #5D646E;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 8px;
+    line-height: 10px;
+}

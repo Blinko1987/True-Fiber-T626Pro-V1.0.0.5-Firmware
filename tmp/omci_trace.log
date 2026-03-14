@@ -1,0 +1,5 @@
+UpdateTime:1970-01-01 00:00:22, sky_dbglevel=0, OMCI_DBG_NO_MSG
+id=[0],1970-01-01 00:00:06,main:1345,start
+id=[1],1970-01-01 00:00:06,olt_auto_id_switch:429,
+ g_auto_id_flag:[1]
+

@@ -1,0 +1,3 @@
+{
+	"wifiMacTab_action":  "<% TCWebApi_commit("wifiMacTab") %>"
+}

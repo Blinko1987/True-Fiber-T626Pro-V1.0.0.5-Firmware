@@ -1,0 +1,121 @@
+.label-hide{
+  display: none;
+}
+
+.label-show{
+  display: "";
+}
+
+.element-hide{
+  display: none;
+}
+
+.element-show{
+  display: "";
+}
+
+.cursor-pointer{
+  cursor:pointer;
+}
+
+.button-disable{
+  background-color: #e9ecef;
+  cursor: default;
+  color: #b4b4b4;
+}
+
+.button-disable-gray{
+  background-color: #b2b2b2;
+  cursor: default;
+  color: #ffffff;
+}
+
+.padding-right-0{
+  padding-right: 0px;
+}
+
+.upgrade-div-text{
+  padding-left: 60px;
+}
+
+.btn-a{
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-a:hover{
+  color: #FFFFFF;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-dashboard-auto{
+  width: auto !important;
+}
+
+.slide-menu-disable{
+  background-color: #e9e9e9;
+  padding-left: 3rem;
+  margin-bottom: 0.2rem;
+  color: #808080;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: default;
+}
+
+.slide-thirdMenu-disable{
+  padding-left: 3rem;
+  border-bottom: 3px outset rgba(0, 0, 0, .125);
+  font-size: 12px;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  background-color: #e9e9e9;
+  color: #808080;
+  cursor: default;
+  z-index: 1;
+}
+
+.input-login-password{
+  width: 90%;
+  padding: 0.7rem;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 3px solid #3E6CA6;
+}
+
+#TrIpv6Gateway input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {/* WebKit browsers */
+	color: #b9b8b8;
+	font-size: 12px;
+}
+
+#TrIpv6Gateway input:-moz-placeholder, textarea:-moz-placeholder {/* Mozilla Firefox 4 to 18 */
+	color: #b9b8b8;
+	font-size: 12px;
+}
+
+#TrIpv6Gateway input::-moz-placeholder, textarea::-moz-placeholder {/* Mozilla Firefox 19+ */
+	color: #b9b8b8;
+	font-size: 12px;
+}
+
+#TrIpv6Gateway input:-ms-input-placeholder, textarea:-ms-input-placeholder {/* Internet Explorer 10+ */
+	color: #b9b8b8;
+	font-size: 12px;
+}
+
+/*simpleAlert css*/
+.simpleAlert{position: fixed;z-index: 1000;}
+.simpleAlertShelter{position: fixed;width: 100%;height: 100%;top:0;left:0;background-color: #000;opacity: 0.3;filter:alpha(opacity=30);}
+.simpleAlertBody{position:fixed;display: none;width: 476px;height: 216px;top:50%;left:50%;margin:-188px 0 0 -238px;opacity:0;border: 1px solid #948497;background-color: #fff;}
+.applyAlertBody{position:fixed;display: none;width: 300px;height: 70px;top:50%;left:50%;margin:-188px 0 0 -238px;opacity:0;background-color: #fff;border-radius: 15px;}
+.simpleAlertBodyClose{position: absolute;width: 20px;height: 20px;top:8px;right: 8px;padding: 5px;cursor: pointer;}
+.simpleAlertBodyContent{position: absolute;top:30%;width:96%;height:54px;overflow-y:auto;left: 2%;text-align: center;font-size: 18px;font-weight: 600;color: #333;}
+.applyAlertBodyContent{position: absolute;top:25%;width:96%;height:40px;overflow-y:auto;left: 2%;text-align: center;font-size: 22px;color: #333;}
+.simpleAlertBodyWait{position: absolute;top: 60%;width: 96%; height: 48px; overflow-y: auto;left: 2%;text-align: center; font-size: 18px;font-weight: 600; color: #00a6cb;}
+.simpleAlertBtn{position:absolute;width: 70px;height: 34px;top:60%;border: 1px solid #bfbfbf;cursor:pointer;border-radius: 5px;color: #fff;font-size: 16px;}
+.simpleAlertBtn1{background-color: #3E6CA6;left: 25%;}
+.simpleAlertBtn2{background-color: #f7f7f7;color: #333;right: 25%;}
+.onlyOne{width: 200px;height: 36px;left: 138px;}
+/*simpleAlert css*/

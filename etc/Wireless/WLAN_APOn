@@ -1,0 +1,17 @@
+APOn=1
+Bssid_num=8
+ssid0=1
+ssid1=1
+ssid2=1
+ssid3=1
+ssid4=1
+ssid5=1
+ssid6=1
+ssid7=1
+WdsEnable=0
+WdsEncrypType=NONE
+WdsKey=12345678
+Wds_MAC0=00:00:00:00:00:00
+Wds_MAC1=00:00:00:00:00:00
+Wds_MAC2=00:00:00:00:00:00
+Wds_MAC3=00:00:00:00:00:00

@@ -1,0 +1,84 @@
+#!/bin/sh
+### Functions for kernel
+### Define function name start with kernel_*, for example kernel_support_qos
+
+PROFILE_CFG=/userfs/profile.cfg
+if [ -f $PROFILE_CFG ] ; then
+    chmod 777 $PROFILE_CFG
+    . $PROFILE_CFG
+fi
+
+### Function to get KERNEL_DIR
+kernel_get_kernel_dir()
+{
+	if [ "$TCSUPPORT_2_6_36_KERNEL" != "" ] ;then
+		echo "/lib/modules/2.6.36"
+	else
+	if [ "$TCSUPPORT_5_4_KERNEL" != "" ] ;then
+		echo "/lib/modules/5.4.55"
+	else
+	if [ "$TCSUPPORT_4_4_KERNEL" != "" ] ;then
+		echo "/lib/modules/4.4.115"
+	else
+	if [ "$TCSUPPORT_3_18_21_KERNEL" != "" ] ;then
+		echo "/lib/modules/3.18.21"
+	else
+		echo "/lib/modules/2.6.22.15"
+	fi
+	fi
+	fi
+	fi
+}
+
+KERNEL_DIR=`kernel_get_kernel_dir`
+echo "$KERNEL_DIR"
+
+### Function to support qos
+kernel_support_qos()
+{
+	# support QoS
+	if [ "$TCSUPPORT_CMCC" = "" ] || [ "$TCSUPPORT_CPU_EN7521" = "" ] ;then
+		if [ "$TCSUPPORT_QOS" != "" ] ;then
+			insmod $KERNEL_DIR/kernel/net/sched/act_mirred.ko
+			insmod $KERNEL_DIR/kernel/net/sched/cls_fw.ko
+			insmod $KERNEL_DIR/kernel/net/sched/sch_htb.ko
+			insmod $KERNEL_DIR/kernel/net/sched/sch_prio.ko
+			ifconfig imq0 up
+		fi
+	fi
+}
+
+kernel_support_usb_dongle()
+{
+	# support usb_dongle
+	echo "insmod usb dongle"
+
+	if [ -f $KERNEL_DIR/kernel/drivers/net/phy/libphy.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/phy/libphy.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/phy/fixed_phy.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/phy/fixed_phy.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/of/of_mdio.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/of/of_mdio.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/usbnet.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/usbnet.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/asix.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/asix.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/ax88179_178a.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/ax88179_178a.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/cdc_ether.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/cdc_ether.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/cdc_ncm.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/cdc_ncm.ko
+	fi
+	if [ -f $KERNEL_DIR/kernel/drivers/net/usb/cdc_subset.ko ] ;then
+	insmod $KERNEL_DIR/kernel/drivers/net/usb/cdc_subset.ko
+	fi
+}
+

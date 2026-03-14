@@ -1,0 +1,27 @@
+{
+  "wlan_id":            "<%tcWebApi_get("WebCurSet_Entry","wlan_id","s")%>",
+  "wlan_ac_id":         "<%tcWebApi_get("WebCurSet_Entry","wlan_ac_id","s")%>",
+  "wifiMacTab_NUM0":    "<%tcWebApi_get("wifiMacTab_Common","NUM0","s")%>",
+  "wifiMacTab_NUM1":    "<%tcWebApi_get("wifiMacTab_Common","NUM1","s")%>",
+  "wifiMacTab_NUM2":    "<%tcWebApi_get("wifiMacTab_Common","NUM2","s")%>",
+  "wifiMacTab_NUM3":    "<%tcWebApi_get("wifiMacTab_Common","NUM3","s")%>",
+  "wifiMacTab_NUM4":    "<%tcWebApi_get("wifiMacTab_Common","NUM4","s")%>",
+  "wifiMacTab_NUM5":    "<%tcWebApi_get("wifiMacTab_Common","NUM5","s")%>",
+  "wifiMacTab_NUM6":    "<%tcWebApi_get("wifiMacTab_Common","NUM6","s")%>",
+  "wifiMacTab_NUM7":    "<%tcWebApi_get("wifiMacTab_Common","NUM7","s")%>",
+  "wifiMacTab_NUM8":    "<%tcWebApi_get("wifiMacTab_Common","NUM8","s")%>",
+  "wifiMacTab_NUM9":    "<%tcWebApi_get("wifiMacTab_Common","NUM9","s")%>",
+  "wifiMacTab_NUM10":   "<%tcWebApi_get("wifiMacTab_Common","NUM10","s")%>",
+  "wifiMacTab_NUM11":   "<%tcWebApi_get("wifiMacTab_Common","NUM11","s")%>",
+  "wifiMacTab_NUM12":   "<%tcWebApi_get("wifiMacTab_Common","NUM12","s")%>",
+  "wifiMacTab_NUM13":   "<%tcWebApi_get("wifiMacTab_Common","NUM13","s")%>",
+  "wifiMacTab_NUM14":   "<%tcWebApi_get("wifiMacTab_Common","NUM14","s")%>",
+  "wifiMacTab_NUM15":   "<%tcWebApi_get("wifiMacTab_Common","NUM15","s")%>",
+  "Port1Status":        "<%tcWebApi_get("Info_Ether","Port1Status","s")%>",
+  "Port2Status":        "<%tcWebApi_get("Info_Ether","Port2Status","s")%>",
+  "Port3Status":        "<%tcWebApi_get("Info_Ether","Port3Status","s")%>",
+  "Port4Status":        "<%tcWebApi_get("Info_Ether","Port4Status","s")%>",
+  <% if tcwebApi_get("Vid_Common","skyvid","h" ) <> "10" then %>
+  "Port9Status":        "<%tcWebApi_get("Info_Ether","Port9Status","s")%>"
+  <% end if %>
+}

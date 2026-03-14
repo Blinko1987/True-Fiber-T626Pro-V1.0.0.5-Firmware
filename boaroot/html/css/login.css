@@ -1,0 +1,117 @@
+#container-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.card-login {
+    margin-top: 4rem;
+    max-width: 980px;
+    min-height: 506px;
+    right: 230px;
+    top: 113px;
+    line-height: 50px;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.13);
+    border-radius: 48px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 576px) {
+    .image-login {
+        display: none !important;
+    }
+    .image-login img {
+        width: 100%;
+        min-height: 506px;
+    }
+    .logo-login {
+        display: block !important;
+        margin: auto;
+        width: 150px;
+    }
+}
+
+.image-login {
+    display: block;
+}
+
+
+/* .image-login img {
+    width: 100%;
+    min-height: 506px;
+} */
+
+.image-login img {
+    width: 80%;
+    /* min-height: 506px; */
+}
+
+.logo-login {
+    display: none;
+    margin: auto;
+    width: 150px;
+}
+
+.card-login-II {
+    margin-top: 18vh;
+    width: 491px;
+    line-height: 50px;
+    background: #FFFFFF;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.13);
+    border-radius: 48px;
+    text-align: center;
+}
+
+.logo-login-II {
+    margin-top: 1rem;
+    width: 150px;
+}
+
+#bg-login-II {
+    height: 100vh;
+    background-image: url("../image/Login1.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.text-logo-login {
+    font-size: 30px;
+    color: #3E6CA6;
+    padding-top: 2rem;
+    margin: 0;
+    padding-bottom: 0;
+    font-weight: bold;
+}
+
+#text-title-login {
+    font-size: 15px;
+    text-align: left;
+    color: #3E6CA6;
+    font-weight: bold;
+}
+
+input[type=text] {
+    width: 90%;
+    padding: 0.7rem;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 3px solid #3E6CA6;
+}
+
+.button-login {
+    background-color: #3E6CA6;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12x;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 50px;
+    padding: 1px 40px;
+}
