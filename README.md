@@ -3,20 +3,20 @@
 Above is extracted firmware for True Fiber T626Pro GPON from Thailand. 
 
 ## Accessing Superadmin via UART
-This is necessary as all GPONS have different Superadmin passwords and telnet is not usually enabled. Alternatively you send me your backup config which you can get from your admin credentials and I'll get it for you.
+Doing this over UART is necessary as all GPONS have different Superadmin passwords and telnet is not usually enabled. Alternatively you can send me your backup config which you should be able to get from your admin(non superadmin) credentials and I will extract your superadmin.
 
 1. Connect UART (soldering required) 
    - GND → board GND  
    - TX (adapter) → RX (board)  
    - RX (adapter) → TX (board)  
-   Baud: 115200 8N1
+   Baud: 115200 
 
-2. Open serial terminal (PuTTY, minicom, screen, etc.) at 115200 bps
+2. Open serial terminal (PuTTY, minicom, picocom, screen, etc.) at 115200
 
 3. Power on device → let it fully boot to login prompt and press enter. You will
    have a login screen.
 
-5. Login  
+4. Login  
    Username: ```admin```
    Password: ```$!%^kyw0rth```
 
