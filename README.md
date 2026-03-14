@@ -3,8 +3,7 @@
 Modified/extracted firmware for True Fiber T626Pro ONT.
 
 ## Accessing Superadmin via UART
-This is necessary as all GPONS have different Superadmin passwords. Alternatively send me your backup config which 
-you can get from your admin credentials and I'll get it for you.
+This is necessary as all GPONS have different Superadmin passwords and telnet is not usually enabled. Alternatively you send me your backup config which you can get from your admin credentials and I'll get it for you.
 
 1. Connect UART (soldering required) 
    - GND → board GND  
