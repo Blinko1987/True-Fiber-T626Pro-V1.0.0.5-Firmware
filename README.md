@@ -1,6 +1,6 @@
 # True Fiber T626Pro V1.0.0.5 Firmware
 
-Modified/extracted firmware for True Fiber T626Pro ONT.
+Above is extracted firmware for True Fiber T626Pro GPON from Thailand. 
 
 ## Accessing Superadmin via UART
 This is necessary as all GPONS have different Superadmin passwords and telnet is not usually enabled. Alternatively you send me your backup config which you can get from your admin credentials and I'll get it for you.
